@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { useAppDispatch, useAppSelector } from "./store/store";
+import { setPlayerName } from "./store/reducers/gameReducer";
+import Game from "./components/Game/Game";
 
-function App() {
+const App: React.FC = () => {
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const playerName = useAppSelector((state) => state.game.playerName);
+  const dispatch = useAppDispatch();
+
+  const handleStartGame = () => {
+    if (playerName.trim()) {
+      setIsPlaying(true);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Snake Game</h1>
+      {!isPlaying ? (
+        <div>
+          <input
+            type="text"
+            placeholder="Enter your name"
+            value={playerName}
+            onChange={(e) => dispatch(setPlayerName(e.target.value))}
+          />
+          <button onClick={handleStartGame}>Start Game</button>
+        </div>
+      ) : (
+        <Game />
+      )}
     </div>
   );
-}
+};
 
 export default App;
