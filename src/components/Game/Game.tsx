@@ -154,9 +154,12 @@ const Game: React.FC = () => {
     <div>
       <h2>{playerName}</h2>
       <h3>Points: {points}</h3>
-      <button onClick={() => dispatch(setIsPaused(!isPaused))}>
-        {isPaused ? "Resume" : "Pause"}
-      </button>
+      {!isGameOver && (
+        <button onClick={() => dispatch(setIsPaused(!isPaused))}>
+          {isPaused ? "Resume" : "Pause"}
+        </button>
+      )}
+
       <Board snake={snake} food={food} foodType={foodType} />
       {isGameOver && (
         <div>
